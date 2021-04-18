@@ -59,17 +59,18 @@ app.get('/name', (req, res) => {
   res.send(jsonObj);
 });
 
+//When name is submitted, it's posted 
+app.post('/name', (req, res) => {
+    let name = req.body.first + ' ' + req.body.last;
+    res.json({name: name});
+  });
+  
+
 // Normal usage
 app.use(express.static(__dirname + "/public"));
 
 // Assets at the /public route
 app.use("/public", express.static(__dirname + "/public"));
-
-//When name is submitted, it's posted 
-app.post('/name', (req, res) => {
-  let name = req.body.first + ' ' + req.body.last;
-  res.json({name: name});
-});
 
 
 module.exports = app;
