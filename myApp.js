@@ -3,6 +3,11 @@ var app = express();
 
 const mySecret = process.env['MESSAGE_STYLE']
 
+app.use(function(req, res, next) {
+	console.log(req.method + " " + req.path + " - " + req.ip)
+	next();
+})
+
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
@@ -14,6 +19,14 @@ app.get("/json", (req, res) => {
 		res.json({"message" : "Hello json"});
 	}
 });
+
+app.get('/now', function(req,res, next){
+		next();
+	}, function(req, res){
+			var time =  new Date()
+			console.log('time'+time);
+			res.json({'time': time});
+		});
 
 // Normal usage
 app.use(express.static(__dirname + "/public"));
