@@ -28,6 +28,21 @@ app.get('/now', function(req,res, next){
 			res.json({'time': time});
 		});
 
+app.get("/:word/echo", (req, res) => {
+  let word = req.params.word
+  
+  let jsonObj = {echo: word,echo: word};
+  res.send(jsonObj);
+});
+
+app.get('/name', (req, res) => {
+  let first = req.query.first;
+  let last = req.query.last;
+  
+  let jsonObj = { name: `${first} ${last}` };
+  res.send(jsonObj);
+});
+
 // Normal usage
 app.use(express.static(__dirname + "/public"));
 
