@@ -1,17 +1,32 @@
 var express = require('express');
 var app = express();
+var bodyParser = require("body-parser");
 
 const mySecret = process.env['MESSAGE_STYLE']
 
+//#7 
 app.use(function(req, res, next) {
 	console.log(req.method + " " + req.path + " - " + req.ip)
 	next();
 })
 
+//#11
+app.use(bodyParser.urlencoded({extended: false}))
+
+//#1
+console.log("Hello World")
+
+//#2
+app.listen(3001, function() {
+console.log('Listening on port 3000');
+});
+
+//#3
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
+//#4
 app.get("/json", (req, res) => {
 	if (process.env.MESSAGE_STYLE === "uppercase") {
 		res.json({"message" : "HELLO JSON"});
@@ -19,6 +34,7 @@ app.get("/json", (req, res) => {
 		res.json({"message" : "Hello json"});
 	}
 });
+
 
 app.get('/now', function(req,res, next){
 		next();
@@ -49,6 +65,13 @@ app.use(express.static(__dirname + "/public"));
 // Assets at the /public route
 app.use("/public", express.static(__dirname + "/public"));
 
- module.exports = app;
+//When name is submitted, it's posted 
+app.post('/name', (req, res) => {
+  let name = req.body.first + ' ' + req.body.last;
+  res.json({name: name});
+});
+
+
+module.exports = app;
 
  
